@@ -9,7 +9,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Repository
+//@Repository
 public class FichierFilmRepository implements FilmRepositoryInterface {
 
     //variable de type fichier
