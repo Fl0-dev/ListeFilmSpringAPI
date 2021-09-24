@@ -23,18 +23,18 @@ public class DefaultFilmService implements FilmServiceInterface{
     }
 
     public Film enregistrementFilm(Film film){
-        filmRepository.ajouter(film);
+        filmRepository.save(film);
         return film;
     }
 
     @Override
-    public List<Film> getFilmList() {
-        return filmRepository.list();
+    public Iterable<Film> getFilmList() {
+        return filmRepository.findAll();
     }
 
     @Override
     public Film getFilmById(Long id) {
-        return filmRepository.getById(id);
+        return filmRepository.findById(id).orElseThrow();
     }
 
 

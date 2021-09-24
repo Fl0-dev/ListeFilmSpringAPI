@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.StreamSupport;
 
 //@Repository
 public class FichierFilmRepository implements FilmRepositoryInterface {
@@ -23,10 +25,11 @@ public class FichierFilmRepository implements FilmRepositoryInterface {
         this.file = file;
     }
 
-    public Film ajouter(Film film){
+    public Film save(Film film){
 
         //permet d'incrémenter le dernier ID pour un ajout de film
-        long lastId=list().stream().map(Film::getId).max(Long::compare).orElse(10L);
+        long lastId= StreamSupport.stream(findAll().spliterator(), false).map(Film::getId).max(Long::compare).orElse(10L);
+
         film.setId(lastId+1);
         FileWriter writer;
         try{
@@ -41,8 +44,19 @@ public class FichierFilmRepository implements FilmRepositoryInterface {
         System.out.printf("Le film %s a été ajouté.",film.getTitre());
         return film;
     }
+
     @Override
-    public List<Film> list() {
+    public <S extends Film> Iterable<S> saveAll(Iterable<S> iterable) {
+        return null;
+    }
+
+    @Override
+    public boolean existsById(Long aLong) {
+        return false;
+    }
+
+    @Override
+    public List<Film> findAll() {
 
         List<Film> films=new ArrayList<>();
 
@@ -68,19 +82,34 @@ public class FichierFilmRepository implements FilmRepositoryInterface {
     }
 
     @Override
-    public Film getById(long id) {
+    public Iterable<Film> findAllById(Iterable<Long> iterable) {
+        return null;
+    }
+
+    @Override
+    public long count() {
+        return 0;
+    }
+
+    @Override
+    public void deleteById(Long aLong) {
+
+    }
+
+    @Override
+    public Optional<Film> findById(Long id) {
         final Film film = new Film();
         film.setId(id);
         try(BufferedReader br = new BufferedReader(new FileReader(file))) {
             for(String line; (line = br.readLine()) != null; ) {
 
-                final String[] allProperties = line.split(";");
-                final long nextMovieId=Long.parseLong(allProperties[0]);
-                if (nextMovieId==id) {
+                final String[] allProperties = line.split("\\;");
+                final long nextFilmId=Long.parseLong(allProperties[0]);
+                if (nextFilmId==id) {
                     film.setTitre(allProperties[1]);
                     film.setGenre(allProperties[2]);
                     film.setDescription(allProperties[3]);
-                    return film;
+                    return Optional.of(film);
                 }
             }
         } catch (FileNotFoundException e) {
@@ -94,7 +123,22 @@ public class FichierFilmRepository implements FilmRepositoryInterface {
         film.setTitre("UNKNOWN");
         film.setGenre("UNKNOWN");
         film.setDescription("UNKNOWN");
-        return film;
+        return Optional.of(film);
+    }
+
+    @Override
+    public void delete(Film film) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void deleteAll(Iterable<? extends Film> iterable) {
+
+    }
+
+    @Override
+    public void deleteAll() {
+        throw new UnsupportedOperationException();
     }
 }
 

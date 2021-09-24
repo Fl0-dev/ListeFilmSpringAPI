@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
 
+/*
 @Repository
 public class FilmRepository implements FilmRepositoryInterface{
 
@@ -44,3 +45,4 @@ public class FilmRepository implements FilmRepositoryInterface{
                 (rs,rownum)-> new Film(rs.getLong("id"),rs.getString("titre"),rs.getString("genre"), rs.getString("description")));
     }
 }
+*/

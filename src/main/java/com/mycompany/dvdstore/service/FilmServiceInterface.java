@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface FilmServiceInterface {
     Film enregistrementFilm(Film film);
-    List<Film> getFilmList();
+    Iterable<Film> getFilmList();
 
     Film getFilmById(Long id);
 }
