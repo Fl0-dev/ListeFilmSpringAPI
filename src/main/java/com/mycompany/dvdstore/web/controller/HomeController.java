@@ -28,6 +28,6 @@ public class HomeController {
         System.out.println(filmService.getFilmList());
         //récupération des films et
         //envoie en attribut de la requête l'objet
-        return filmService.getFilmList();
+        return (List<Film>) filmService.getFilmList();
     }
 }
