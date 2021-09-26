@@ -132,6 +132,11 @@ public class FichierFilmRepository implements FilmRepositoryInterface {
     }
 
     @Override
+    public void deleteAllById(Iterable<? extends Long> iterable) {
+
+    }
+
+    @Override
     public void deleteAll(Iterable<? extends Film> iterable) {
 
     }
@@ -139,6 +144,11 @@ public class FichierFilmRepository implements FilmRepositoryInterface {
     @Override
     public void deleteAll() {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Optional<Film> findById(long id) {
+        return Optional.empty();
     }
 }
 

@@ -4,8 +4,11 @@ import com.mycompany.dvdstore.entity.Film;
 import com.mycompany.dvdstore.repository.FilmRepositoryInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class DefaultFilmService implements FilmServiceInterface{
@@ -22,6 +25,7 @@ public class DefaultFilmService implements FilmServiceInterface{
         this.filmRepository = filmRepository;
     }
 
+    @Transactional
     public Film enregistrementFilm(Film film){
         filmRepository.save(film);
         return film;
@@ -34,7 +38,19 @@ public class DefaultFilmService implements FilmServiceInterface{
 
     @Override
     public Film getFilmById(Long id) {
-        return filmRepository.findById(id).orElseThrow();
+        Optional<Film> optionalFilm=filmRepository.findById(id);
+        if (optionalFilm.isEmpty()){
+            throw new NoSuchElementException();
+        }
+        Film film=optionalFilm.get();
+        //Initialize proxys
+        film.getMainActeur().getFirstName();
+        film.getReviews().forEach(review -> {
+            review.setFilm(null);
+        });
+        //
+
+        return film;
     }
 
 

@@ -64,14 +64,23 @@ public class MemoryFilmRepository implements FilmRepositoryInterface {
     }
 
     @Override
+    public void deleteAllById(Iterable<? extends Long> iterable) {
+
+    }
+
+    @Override
     public void deleteAll(Iterable<? extends Film> iterable) {
         throw new UnsupportedOperationException();
     }
 
     @Override
     public void deleteAll() {
-        throw new UnsupportedOperationException();
+
     }
 
 
+    @Override
+    public Optional<Film> findById(long id) {
+        return Optional.empty();
+    }
 }
